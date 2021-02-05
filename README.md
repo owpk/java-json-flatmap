@@ -52,7 +52,7 @@ public class NestedObject {
 Client code:
 ```java
 import org.owpk.jsondataextruder.JsonFlatmap;
-
+import com.google.common.collect.Multimap;
 //... some class name
 
 public void flat() {
@@ -81,7 +81,7 @@ DefinitionConfig cfg =
 	.addNewDefinitionConfig(NestedObject.class)
         .addFieldsToShow("name")
 	.build();
-MultiMap<String, String> result = JsonFlatmap.flatmap(, cfg);
+Multimap<String, String> result = JsonFlatmap.flatmap(, cfg);
 result.forEach((k, v) -> System.out.println(k + " : " + v);
 
 //Output:
