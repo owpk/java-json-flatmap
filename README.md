@@ -25,7 +25,7 @@ Example json object
 {
    "name" : "hello",
    "nested_object" : {
-      "id" : 0
+      "id" : 0,
       "name" : "world" 
    }
 }
