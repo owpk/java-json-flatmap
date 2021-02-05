@@ -21,7 +21,7 @@ To add to your project
  - Annotate fields which represents another nested object by @ObjecName (you should use @ObjectName(name = "field_name") to define name of the logical property. If value is empty String (which is the default), will try to use name of the field that is annotated)
 
 Example json object
-```
+```json
 {
    "name" : "hello",
    "nested_object" : {
@@ -32,7 +32,7 @@ Example json object
 ```
 Here its java mapping
 
-```
+```java
 public class Json {
    private String name;
 
@@ -48,7 +48,7 @@ public class NestedObject {
 }
 ```
 Client code:
-```
+```java
 import org.owpk.jsondataextruder.JsonFlatmap;
 
 //... some class name
@@ -72,7 +72,7 @@ if there is an array of values you can define field names and its values to filt
 
 Example:
 
-```
+```java
 DefinitionConfig cfg = 
 	new DefinitionConfigBuilder(Json.class)
 	.addFieldsToShow("name")
