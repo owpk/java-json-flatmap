@@ -5,20 +5,20 @@ from project roots run:
 ```
 To add to your project
 ```xml
-        <dependency>
-            <groupId>org.owpk</groupId>
-            <artifactId>json-flatmap-core</artifactId>
-            <version>1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.owpk</groupId>
-            <artifactId>json-flatmap-annotations</artifactId>
-            <version>1.0</version>
-        </dependency>
+ <dependency>
+     <groupId>org.owpk</groupId>
+     <artifactId>json-flatmap-core</artifactId>
+     <version>1.0</version>
+ </dependency>
+ <dependency>
+     <groupId>org.owpk</groupId>
+     <artifactId>json-flatmap-annotations</artifactId>
+     <version>1.0</version>
+ </dependency>
 ```
 ### Basic usage
-Map json object using jackson lib  
-Annotate fields which represents another nested object by @ObjecName (you should use @ObjectName(name = "field_name") to define name of the logical property. If value is empty String (which is the default), will try to use name of the field that is annotated)
+ - Map json object using jackson lib  
+ - Annotate fields which represents another nested object by @ObjecName (you should use @ObjectName(name = "field_name") to define name of the logical property. If value is empty String (which is the default), will try to use name of the field that is annotated)
 
 Example json object
 ```
@@ -30,7 +30,7 @@ Example json object
    }
 }
 ```
-Here its representation
+Here its java mapping
 
 ```
 public class Json {
@@ -46,7 +46,6 @@ public class NestedObject {
    private String name;
    //... Default constructor, getters, setters
 }
-
 ```
 Client code:
 ```
