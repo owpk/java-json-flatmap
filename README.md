@@ -55,9 +55,9 @@ import org.owpk.jsondataextruder.JsonFlatmap;
 import com.google.common.collect.Multimap;
 //... some class name
 
-public void flat() {
+public void flat(String complexJsonObject) {
 ObjectMapper mapper = new ObjectMapper();
-        Json json = mapper.readValues("val", Json.class);
+        Json json = mapper.readValues("complexJsonObject", Json.class);
 
         Multimap<String, String> data = JsonFlatmap.flatmap(json, DefinitionConfig.DEFAULT);
         
