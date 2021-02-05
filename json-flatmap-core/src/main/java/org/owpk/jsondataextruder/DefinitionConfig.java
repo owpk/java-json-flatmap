@@ -18,6 +18,7 @@ import java.util.function.Consumer;
 @ToString
 @EqualsAndHashCode
 public class DefinitionConfig {
+    public static final DefinitionConfig DEFAULT = new DefinitionConfig();
 
     @JsonIgnore
     private Class<?> clazz;

@@ -10,7 +10,7 @@ import org.owpk.jsondataextruder.JsonObjectWrapperImpl;
 import java.util.Arrays;
 import java.util.List;
 
-public class JsonFlatmapTest {
+public class JsonWrapperTest {
     public static Multimap<String, String> result;
 
     @Test

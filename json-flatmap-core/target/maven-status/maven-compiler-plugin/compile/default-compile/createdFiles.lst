@@ -1,0 +1,12 @@
+org\owpk\jsondataextruder\JsonFlatmap.class
+org\owpk\jsondataextruder\DefinitionConfigBuilder.class
+org\owpk\jsondataextruder\JsonObjectWrapper.class
+org\owpk\jsondataextruder\ReflectWrapperUtils.class
+org\owpk\jsondataextruder\DefinitionConfig.class
+org\owpk\jsondataextruder\EmptyJsonObjectWrapperImpl.class
+org\owpk\jsondataextruder\FilterChain.class
+org\owpk\jsondataextruder\JsonObjectWrapperImpl$ObjectNameDataExtruder.class
+org\owpk\jsondataextruder\ReflectWrapperUtils$1.class
+org\owpk\jsondataextruder\ExecutorChain.class
+org\owpk\jsondataextruder\JsonObjectWrapperImpl.class
+org\owpk\jsondataextruder\DefinitionConfigBuilder$Node.class

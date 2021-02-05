@@ -9,10 +9,10 @@ import org.owpk.jsondataextruder.DefinitionConfigBuilder;
 import org.owpk.jsondataextruder.JsonFlatmap;
 
 public class IntegrationTest {
-    
+
     @BeforeAll
     static void init() {
-        new JsonFlatmapTest().init();
+        new JsonWrapperTest().init();
     }
 
     @Test
@@ -28,9 +28,9 @@ public class IntegrationTest {
                 .build();
 
         ObjectMapper objectMapper = new ObjectMapper();
-        TestClasses.Wallet[] wallets = objectMapper.readValue(JsonFlatmapTest.json, TestClasses.Wallet[].class);
+        TestClasses.Wallet[] wallets = objectMapper.readValue(JsonWrapperTest.json, TestClasses.Wallet[].class);
 
         Multimap<String, String> collector = JsonFlatmap.flatmap(wallets, config);
-        Assertions.assertEquals(collector, JsonFlatmapTest.result);
+        Assertions.assertEquals(collector, JsonWrapperTest.result);
     }
 }

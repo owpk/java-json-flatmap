@@ -8,6 +8,7 @@
     <artifactId>json-flatmap</artifactId>
     <packaging>pom</packaging>
     <version>1.0</version>
+
     <modules>
         <module>json-flatmap-core</module>
         <module>json-flatmap-annotations</module>
