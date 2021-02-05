@@ -30,7 +30,7 @@ public class IntegrationTest {
         ObjectMapper objectMapper = new ObjectMapper();
         TestClasses.Wallet[] wallets = objectMapper.readValue(JsonWrapperTest.json, TestClasses.Wallet[].class);
 
-        Multimap<String, String> collector = JsonFlatmap.flatmap(wallets, config);
-        Assertions.assertEquals(collector, JsonWrapperTest.result);
+        Multimap<String, String> collector = JsonFlatmap.flatmap(wallets, DefinitionConfig.DEFAULT);
+        Assertions.assertEquals(JsonWrapperTest.result, collector);
     }
 }
