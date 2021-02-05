@@ -33,6 +33,7 @@ Example json object
 Here its java mapping
 
 ```java
+@ObjectName(name = "json")
 public class Json {
    private String name;
 
@@ -41,6 +42,7 @@ public class Json {
    //... Default constructor, getters, setters
 }
 
+@ObjectName(name = "nested_object")
 public class NestedObject {
    private int id;
    private String name;
