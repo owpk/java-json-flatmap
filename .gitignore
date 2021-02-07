@@ -1,0 +1,4 @@
+json-flatmap-annotations/target
+json-flatmap-core/target
+.idea
+*.iml

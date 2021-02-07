@@ -1,7 +1,5 @@
 package org.owpk.jsondataextruder;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -20,19 +18,12 @@ import java.util.function.Consumer;
 public class DefinitionConfig {
     public static final DefinitionConfig DEFAULT = new DefinitionConfig();
 
-    @JsonIgnore
-    private Class<?> clazz;
-
-    @JsonProperty(value = "fields_to_show")
     private List<String> fieldsToShow;
 
-    @JsonProperty(value = "entities_to_show")
     private List<DefinitionConfig> entitiesToShow;
 
-    @JsonProperty(value = "object_name")
     private String objectName;
 
-    @JsonProperty(value = "filter_by")
     private Map<String, List<String>> filterBy;
 
     private DefinitionConfig() {
@@ -43,7 +34,6 @@ public class DefinitionConfig {
 
     public DefinitionConfig(Class<?> clazz) {
         this();
-        this.clazz = clazz;
         Annotation[] annotations = clazz.getAnnotations();
         for (Annotation annotation : annotations) {
             if (annotation instanceof ObjectName) {
@@ -51,7 +41,6 @@ public class DefinitionConfig {
             }
         }
     }
-
 
     @SafeVarargs
     private  <T> void iterateAllToAdd(Consumer<T> consumer, T first, T... more) {
@@ -79,7 +68,6 @@ public class DefinitionConfig {
         cfg.setFilterBy(filterBy);
         cfg.setFieldsToShow(fieldsToShow);
         cfg.setEntitiesToShow(entitiesToShow);
-        cfg.setClazz(clazz);
         cfg.setObjectName(objectName);
         return cfg;
     }
