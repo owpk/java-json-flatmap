@@ -4,6 +4,8 @@ import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Multimap;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.owpk.jsondataextruder.DefinitionConfig;
+import org.owpk.jsondataextruder.JsonObjectWrapperImpl;
 
 import java.util.Arrays;
 import java.util.List;

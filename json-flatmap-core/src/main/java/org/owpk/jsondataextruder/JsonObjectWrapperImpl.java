@@ -106,7 +106,8 @@ public class JsonObjectWrapperImpl<T> extends ExecutorChain implements JsonObjec
             throws IllegalAccessException {
         if (definitionConfig.getEntitiesToShow().isEmpty()) {
             Object o = field.get(object);
-            convertAndExecute(o);
+            if (o != null)
+                convertAndExecute(o);
         } else
             for (DefinitionConfig cfg : definitionConfig.getEntitiesToShow()) {
                 if (cfg.getObjectName().equals(fieldName)) {

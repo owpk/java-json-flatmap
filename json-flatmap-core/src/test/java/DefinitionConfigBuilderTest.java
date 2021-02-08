@@ -1,6 +1,8 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.owpk.jsondataextruder.DefinitionConfig;
+import org.owpk.jsondataextruder.DefinitionConfigBuilder;
 
 import java.util.List;
 
@@ -9,10 +11,10 @@ public class DefinitionConfigBuilderTest {
 
     @BeforeAll
     public static void init() {
-        DefinitionConfig balanceConfig = new DefinitionConfig(TestClasses.Balance.class);
+        var balanceConfig = new DefinitionConfig(TestClasses.Balance.class);
         balanceConfig.addFieldsToShow("value");
 
-        DefinitionConfig poolBalancesConfig = new DefinitionConfig(TestClasses.PoolBalances.class);
+        var poolBalancesConfig = new DefinitionConfig(TestClasses.PoolBalances.class);
         poolBalancesConfig.addFilterByFields("pool", "hive", "string");
         poolBalancesConfig.addFieldsToShow("pool");
         poolBalancesConfig.addEntitiesToShow(balanceConfig);

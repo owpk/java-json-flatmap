@@ -4,6 +4,9 @@ import com.google.common.collect.Multimap;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.owpk.jsondataextruder.DefinitionConfig;
+import org.owpk.jsondataextruder.DefinitionConfigBuilder;
+import org.owpk.jsondataextruder.JsonFlatmap;
 
 public class IntegrationTest {
 
