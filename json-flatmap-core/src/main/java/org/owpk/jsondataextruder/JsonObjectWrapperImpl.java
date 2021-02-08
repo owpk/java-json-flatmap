@@ -1,5 +1,6 @@
 package org.owpk.jsondataextruder;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Multimap;
 import lombok.Getter;
@@ -8,6 +9,7 @@ import org.owpk.objectname.ObjectName;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Getter
 public class JsonObjectWrapperImpl<T> extends ExecutorChain implements JsonObjectWrapper {
@@ -60,29 +62,39 @@ public class JsonObjectWrapperImpl<T> extends ExecutorChain implements JsonObjec
     @Getter
     private static class ObjectNameDataExtruder<T> {
         private final Map<Field, ObjectName> annotatedFieldMap;
-        private final T object;
+        private final List<String> unannotatedFiledList;
         private Field[] fields;
 
         public ObjectNameDataExtruder(T object) {
-            this.object = object;
-            annotatedFieldMap = new LinkedHashMap<>();
-            extrudeAllData();
-        }
-
-        private void extrudeAllData() {
             fields = object.getClass().getDeclaredFields();
-            extrudeAnnotatedFields();
+            annotatedFieldMap = new LinkedHashMap<>();
+            unannotatedFiledList = new ArrayList<>();
+            extrudeFields();
         }
 
-        private void extrudeAnnotatedFields() {
+        private void extrudeFields() {
             for (Field field : fields) {
                 field.setAccessible(true);
-                Annotation[] annotations = field.getDeclaredAnnotations();
-                for (Annotation annotation : annotations) {
-                    if (annotation instanceof ObjectName) {
-                        ObjectName objectNameAnnotation = (ObjectName) annotation;
-                        annotatedFieldMap.put(field, objectNameAnnotation);
+                List<Annotation> present =
+                        Arrays.stream(field.getDeclaredAnnotations())
+                                .filter(x -> x instanceof ObjectName)
+                                .collect(Collectors.toList());
+
+                List<JsonProperty> jackson =
+                        Arrays.stream(field.getDeclaredAnnotations())
+                                .filter(x -> x instanceof JsonProperty)
+                                .map(x -> (JsonProperty) x)
+                                .collect(Collectors.toList());
+
+                if (present.isEmpty()) {
+                    if (jackson.isEmpty()) {
+                        unannotatedFiledList.add(field.getName());
+                    } else {
+                        unannotatedFiledList.add((jackson.get(0).value()));
                     }
+                } else {
+                    ObjectName objectNameAnnotation = (ObjectName) present.get(0);
+                    annotatedFieldMap.put(field, objectNameAnnotation);
                 }
             }
         }
@@ -94,26 +106,24 @@ public class JsonObjectWrapperImpl<T> extends ExecutorChain implements JsonObjec
             throws IllegalAccessException {
         if (definitionConfig.getEntitiesToShow().isEmpty()) {
             Object o = field.get(object);
-            Class<?> clazz = o.getClass();
-            DefinitionConfig cfg = new DefinitionConfig(clazz);
-            convertAndExecute(o, cfg);
+            convertAndExecute(o);
         } else
             for (DefinitionConfig cfg : definitionConfig.getEntitiesToShow()) {
                 if (cfg.getObjectName().equals(fieldName)) {
                     Object o = field.get(object);
-                    convertAndExecute(o, cfg);
+                    convertAndExecute(o);
                 }
             }
     }
 
-    private void convertAndExecute(Object o, DefinitionConfig cfg) throws IllegalAccessException {
+    private void convertAndExecute(Object o) throws IllegalAccessException {
         List<JsonObjectWrapper> wrappers = new ArrayList<>();
         if (Collection.class.isAssignableFrom(o.getClass())) {
             List<Object> valueList = (List) o;
             wrappers.addAll(ReflectWrapperUtils.convertToWrappers(valueList, dataCollector));
         } else wrappers.add(ReflectWrapperUtils.convertToWrapper(o, dataCollector));
         for (JsonObjectWrapper wrapper : wrappers) {
-            executeWrapper(wrapper, cfg);
+            executeWrapper(wrapper, DefinitionConfig.DEFAULT);
         }
     }
 
@@ -132,12 +142,19 @@ public class JsonObjectWrapperImpl<T> extends ExecutorChain implements JsonObjec
 
     protected void collectObjectFields(DefinitionConfig definitionConfig) {
         List<String> list = definitionConfig.getFieldsToShow();
-        objectGraph.forEach((k, v) -> {
-            if (!list.isEmpty() && list.contains(k.toString()))
-                dataCollector.put(k.toString(), v.toString());
-            else if (list.isEmpty()) {
-                dataCollector.put(k.toString(), v.toString());
+        if (!list.isEmpty()) {
+            objectGraph.forEach((k, v) -> {
+                if (!list.isEmpty() && list.contains(k.toString()))
+                    dataCollector.put(k.toString(), v != null ? v.toString() : "null");
+            });
+        } else {
+            List<String> unnAnnotated = dataExtruder.unannotatedFiledList;
+            if (!unnAnnotated.isEmpty()) {
+                objectGraph.forEach((k, v) -> {
+                    if (unnAnnotated.contains(k.toString()))
+                        dataCollector.put(k.toString(), v != null ? v.toString() : "null");
+                });
             }
-        });
+        }
     }
 }

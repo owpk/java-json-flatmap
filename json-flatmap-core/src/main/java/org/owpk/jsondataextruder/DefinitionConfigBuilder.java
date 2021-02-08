@@ -1,24 +1,10 @@
 package org.owpk.jsondataextruder;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-
-import java.util.Map;
 import java.util.Stack;
 
 public class DefinitionConfigBuilder {
     private final Stack<DefinitionConfig> stack;
     private DefinitionConfig current;
-
-    @Getter
-    @Setter
-    @RequiredArgsConstructor
-    private static class Node {
-        private final Stack<DefinitionConfigBuilder> configs;
-        private Node prev;
-        private Node next;
-    }
 
     public DefinitionConfigBuilder(Class<?> clazz) {
         current = new DefinitionConfig(clazz);
