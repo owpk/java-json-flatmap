@@ -100,31 +100,31 @@ public class JsonObjectWrapperImpl<T> extends ExecutorChain implements JsonObjec
         }
     }
 
-    @SuppressWarnings("unchecked")
     protected void executeEntities(DefinitionConfig definitionConfig,
                                    String fieldName, Field field)
             throws IllegalAccessException {
-        if (definitionConfig.getEntitiesToShow().isEmpty()) {
+        if (definitionConfig.getObjects().isEmpty()) {
             Object o = field.get(object);
             if (o != null)
-                convertAndExecute(o);
+                convertAndExecute(o, DefinitionConfig.DEFAULT);
         } else
-            for (DefinitionConfig cfg : definitionConfig.getEntitiesToShow()) {
-                if (cfg.getObjectName().equals(fieldName)) {
+            for (DefinitionConfig cfg : definitionConfig.getObjects()) {
+                if (cfg.getName().equals(fieldName)) {
                     Object o = field.get(object);
-                    convertAndExecute(o);
+                    convertAndExecute(o, cfg);
                 }
             }
     }
 
-    private void convertAndExecute(Object o) throws IllegalAccessException {
+    @SuppressWarnings("unchecked")
+    private void convertAndExecute(Object o, DefinitionConfig config) throws IllegalAccessException {
         List<JsonObjectWrapper> wrappers = new ArrayList<>();
         if (Collection.class.isAssignableFrom(o.getClass())) {
-            List<Object> valueList = (List) o;
+            List<Object> valueList = (List<Object>) o;
             wrappers.addAll(ReflectWrapperUtils.convertToWrappers(valueList, dataCollector));
         } else wrappers.add(ReflectWrapperUtils.convertToWrapper(o, dataCollector));
         for (JsonObjectWrapper wrapper : wrappers) {
-            executeWrapper(wrapper, DefinitionConfig.DEFAULT);
+            executeWrapper(wrapper, config);
         }
     }
 
@@ -142,7 +142,7 @@ public class JsonObjectWrapperImpl<T> extends ExecutorChain implements JsonObjec
     }
 
     protected void collectObjectFields(DefinitionConfig definitionConfig) {
-        List<String> list = definitionConfig.getFieldsToShow();
+        List<String> list = definitionConfig.getFields();
         if (!list.isEmpty()) {
             objectGraph.forEach((k, v) -> {
                 if (!list.isEmpty() && list.contains(k.toString()))

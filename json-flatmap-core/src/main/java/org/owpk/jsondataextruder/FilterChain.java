@@ -12,7 +12,7 @@ public class FilterChain extends ExecutorChain {
 
     @Override
     public void execute(DefinitionConfig config) {
-        var filter = config.getFilterBy();
+        var filter = config.getFilter();
         for (Map.Entry<String, List<String>> entry : filter.entrySet()) {
             if (objGraph.containsKey(entry.getKey())) {
                 String field = objGraph.get(entry.getKey()).toString();

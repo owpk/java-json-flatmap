@@ -10,7 +10,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-@Log4j2
 public class ReflectWrapperUtils {
 
     public static JsonObjectWrapper convertToWrapper(Object value, Multimap<String, String> collector) {
@@ -37,7 +36,7 @@ public class ReflectWrapperUtils {
             return new JsonObjectWrapperImpl<>(o, collector) {};
         } catch (NoSuchMethodException | IllegalAccessException
                 | InstantiationException | InvocationTargetException e) {
-            log.error(e);
+            // ignoring
         }
         return new EmptyJsonObjectWrapperImpl();
     }

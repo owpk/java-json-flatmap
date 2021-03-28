@@ -36,24 +36,6 @@ public class DefinitionConfigBuilder {
         return this;
     }
 
-//    TODO I guess it has to wait for better times.
-
-//    public DefinitionConfigBuilder next() {
-//        return this;
-//    }
-//
-//    public DefinitionConfigBuilder lookUp() {
-//        return this;
-//    }
-//
-//    public DefinitionConfigBuilder lookDown() {
-//        return this;
-//    }
-//
-//    public DefinitionConfigBuilder getForObject(Class<?> clazz) {
-//        return this;
-//    }
-
     public DefinitionConfig build() {
         return (DefinitionConfig) stack.firstElement().clone();
     }

@@ -18,18 +18,18 @@ import java.util.function.Consumer;
 public class DefinitionConfig {
     public static final DefinitionConfig DEFAULT = new DefinitionConfig();
 
-    private List<String> fieldsToShow;
+    private String name;
 
-    private List<DefinitionConfig> entitiesToShow;
+    private List<String> fields;
 
-    private String objectName;
+    private List<DefinitionConfig> objects;
 
-    private Map<String, List<String>> filterBy;
+    private Map<String, List<String>> filter;
 
     private DefinitionConfig() {
-        this.entitiesToShow = new ArrayList<>();
-        this.fieldsToShow = new ArrayList<>();
-        this.filterBy = new HashMap<>();
+        this.objects = new ArrayList<>();
+        this.fields = new ArrayList<>();
+        this.filter = new HashMap<>();
     }
 
     public DefinitionConfig(Class<?> clazz) {
@@ -37,9 +37,14 @@ public class DefinitionConfig {
         Annotation[] annotations = clazz.getAnnotations();
         for (Annotation annotation : annotations) {
             if (annotation instanceof ObjectName) {
-                objectName = ((ObjectName) annotation).name();
+                name = ((ObjectName) annotation).name();
             }
         }
+    }
+
+    public DefinitionConfig(String fieldNameForClass) {
+        this();
+        name = fieldNameForClass;
     }
 
     @SafeVarargs
@@ -51,24 +56,24 @@ public class DefinitionConfig {
     }
 
     public void addFieldsToShow(String field, String... more) {
-        iterateAllToAdd(x -> fieldsToShow.add(x), field, more);
+        iterateAllToAdd(x -> fields.add(x), field, more);
     }
 
     public void addEntitiesToShow(DefinitionConfig config, DefinitionConfig... more) {
-        iterateAllToAdd(x -> entitiesToShow.add(x), config, more);
+        iterateAllToAdd(x -> objects.add(x), config, more);
     }
 
     public final void addFilterByFields(String fieldName, String... values) {
-        filterBy.put(fieldName, List.of(values));
+        filter.put(fieldName, List.of(values));
     }
 
     @Override
     protected Object clone() {
         DefinitionConfig cfg = new DefinitionConfig();
-        cfg.setFilterBy(filterBy);
-        cfg.setFieldsToShow(fieldsToShow);
-        cfg.setEntitiesToShow(entitiesToShow);
-        cfg.setObjectName(objectName);
+        cfg.setFilter(filter);
+        cfg.setFields(fields);
+        cfg.setObjects(objects);
+        cfg.setName(name);
         return cfg;
     }
 }

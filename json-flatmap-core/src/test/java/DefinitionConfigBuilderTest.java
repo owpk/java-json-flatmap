@@ -20,8 +20,8 @@ public class DefinitionConfigBuilderTest {
         poolBalancesConfig.addEntitiesToShow(balanceConfig);
 
         DefinitionConfig walletConfig = new DefinitionConfig(TestClasses.Wallet.class);
-        walletConfig.setEntitiesToShow(List.of(poolBalancesConfig));
-        walletConfig.setFieldsToShow(List.of("coin", "name", "id", "wal"));
+        walletConfig.setObjects(List.of(poolBalancesConfig));
+        walletConfig.setFields(List.of("coin", "name", "id", "wal"));
         walletConfig.addFilterByFields("id", "0", "2");
 
         config = walletConfig;

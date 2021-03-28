@@ -31,6 +31,6 @@ public class IntegrationTest {
         TestClasses.Wallet[] wallets = objectMapper.readValue(JsonWrapperTest.json, TestClasses.Wallet[].class);
 
         Multimap<String, String> collector = JsonFlatmap.flatmap(wallets, config);
-        Assertions.assertEquals(JsonWrapperTest.result, collector);
+        Assertions.assertEquals(JsonWrapperTest.expected, collector);
     }
 }
