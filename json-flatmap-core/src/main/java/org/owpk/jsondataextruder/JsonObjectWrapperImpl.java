@@ -111,7 +111,8 @@ public class JsonObjectWrapperImpl<T> extends ExecutorChain implements JsonObjec
             for (DefinitionConfig cfg : definitionConfig.getObjects()) {
                 if (cfg.getName().equals(fieldName)) {
                     Object o = field.get(object);
-                    convertAndExecute(o, cfg);
+                    if (o != null)
+                        convertAndExecute(o, cfg);
                 }
             }
     }
@@ -148,14 +149,15 @@ public class JsonObjectWrapperImpl<T> extends ExecutorChain implements JsonObjec
                 if (!list.isEmpty() && list.contains(k.toString()))
                     dataCollector.put(k.toString(), v != null ? v.toString() : "null");
             });
-        } else {
-            List<String> unnAnnotated = dataExtruder.unannotatedFiledList;
-            if (!unnAnnotated.isEmpty()) {
-                objectGraph.forEach((k, v) -> {
-                    if (unnAnnotated.contains(k.toString()))
-                        dataCollector.put(k.toString(), v != null ? v.toString() : "null");
-                });
-            }
         }
+//        else {
+//            List<String> unnAnnotated = dataExtruder.unannotatedFiledList;
+//            if (!unnAnnotated.isEmpty()) {
+//                objectGraph.forEach((k, v) -> {
+//                    if (unnAnnotated.contains(k.toString()))
+//                        dataCollector.put(k.toString(), v != null ? v.toString() : "null");
+//                });
+//            }
+//        }
     }
 }

@@ -9,13 +9,12 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <packaging>jar</packaging>
-
     <artifactId>json-flatmap-core</artifactId>
     <dependencies>
         <dependency>
             <groupId>org.owpk</groupId>
             <artifactId>json-flatmap-annotations</artifactId>
-            <version>1.0</version>
+            <version>1.1</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
